@@ -10,6 +10,13 @@ const lessons = {
     q('В каком слове пять букв?', ['Дом', 'Школа', 'Карандаш'], 1, 'Учитель русского языка'),
     q('Выбери проверочное слово для слова «леса́».', ['Лес', 'Лиса', 'Лесной'], 0, 'Учитель русского языка'),
     q('Какое предложение написано правильно?', ['кот спит.', 'Кот спит.', 'Кот спит'], 1, 'Учитель русского языка'),
+    q('В каком слове первый звук — гласный?', ['Арбуз', 'Дом', 'Мяч'], 0, 'Учитель русского языка'),
+    q('Какое слово отвечает на вопрос «кто?»', ['Лиса', 'Окно', 'Молоко'], 0, 'Учитель русского языка'),
+    q('Найди слово из трёх слогов.', ['Мак', 'Река', 'Машина'], 2, 'Учитель русского языка'),
+    q('Какая буква пропущена: тр…ва?', ['а', 'о', 'и'], 0, 'Учитель русского языка'),
+    q('Выбери слово во множественном числе.', ['Книга', 'Книги', 'Книгой'], 1, 'Учитель русского языка'),
+    q('Какое слово написано с большой буквы правильно?', ['москва', 'Москва', 'МОсква'], 1, 'Учитель русского языка'),
+    q('Какой знак нужен в конце вопроса: «Где мой рюкзак…»', ['.', '!', '?'], 2, 'Учитель русского языка'),
   ],
   3: [
     q('Чему равно 7 × 8?', ['54', '56', '64'], 1),
@@ -73,6 +80,11 @@ const lessons = {
   ],
 };
 
+Object.keys(lessons).forEach((key) => {
+  const source = lessons[key];
+  if (source.length < 10) lessons[key] = Array.from({ length: 10 }, (_, index) => source[index % source.length]);
+});
+
 const modes = [
   ...Array.from({ length: 11 }, (_, index) => ({ id: index + 1, label: `${index + 1} класс`, subject: index === 1 ? 'Русский язык' : 'Математика' })),
   { id: 12, label: '1 курс' },
@@ -86,6 +98,7 @@ const questionElement = document.querySelector('#question');
 const speakerElement = document.querySelector('#speaker');
 const answersElement = document.querySelector('#answers');
 const hintElement = document.querySelector('#hint');
+const stageCounterElement = document.querySelector('#stageCounter');
 let riddleIndex = 0;
 let iq = 0;
 let locked = false;
@@ -108,7 +121,7 @@ function selectMode(mode) {
   riddles = lessons[mode.id];
   document.querySelector('#modeBadge').textContent = `${mode.label} · ${mode.subject || 'Математика'}`;
   document.querySelector('#roadMode').textContent = `${mode.label} · ${mode.subject || 'Математика'} · Где-то очень далеко от дома`;
-  resetGame(false);
+  startMode();
 }
 
 function showScene(id) {
@@ -116,18 +129,18 @@ function showScene(id) {
   document.querySelector('#game').dataset.scene = id;
 }
 
-function resetGame(goToModes = true) {
+function startMode() {
   riddleIndex = 0;
-  iq = 0;
   locked = false;
-  iqElement.textContent = '0';
   hintElement.textContent = 'Выбирай внимательно. Пол слушает каждый ответ.';
-  showScene(goToModes ? 'modes' : 'road');
+  stageCounterElement.textContent = 'Этап 1 / 10';
+  showScene('road');
 }
 
 function showRiddle() {
   locked = false;
   const riddle = riddles[riddleIndex];
+  stageCounterElement.textContent = `Этап ${riddleIndex + 1} / ${riddles.length}`;
   speakerElement.textContent = riddle.speaker;
   questionElement.textContent = riddle.question;
   answersElement.replaceChildren();
@@ -163,7 +176,14 @@ function answerRiddle(answerIndex, button) {
   hintElement.textContent = 'Правильно. IQ плюс один.';
   riddleIndex += 1;
   setTimeout(() => {
-    if (riddleIndex === riddles.length) showScene('victory');
+    if (riddleIndex === riddles.length) {
+      const isLastMode = selectedMode.id === modes.length;
+      document.querySelector('#victoryText').textContent = isLastMode
+        ? `Ты прошёл все режимы и сохранил ${iq} IQ! Теперь центр исполнит желание.`
+        : `Все 10 этапов пройдены. Твой результат — ${iq} IQ. Следующая дверь открыта.`;
+      document.querySelector('#againButton').textContent = isLastMode ? 'Начать заново' : 'Следующий класс';
+      showScene('victory');
+    }
     else showRiddle();
   }, 1100);
 }
@@ -173,6 +193,14 @@ document.querySelector('#enterButton').addEventListener('click', () => {
   showScene('chamber');
   showRiddle();
 });
-document.querySelector('#retryButton').addEventListener('click', () => resetGame(false));
-document.querySelector('#againButton').addEventListener('click', () => resetGame(true));
+document.querySelector('#retryButton').addEventListener('click', startMode);
+document.querySelector('#againButton').addEventListener('click', () => {
+  if (selectedMode.id === modes.length) {
+    iq = 0;
+    iqElement.textContent = '0';
+    showScene('modes');
+    return;
+  }
+  selectMode(modes[selectedMode.id]);
+});
 buildModes();
