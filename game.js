@@ -104,6 +104,26 @@ let iq = 0;
 let locked = false;
 let riddles = lessons[1];
 let selectedMode = null;
+let attemptNumber = 0;
+
+function shuffledAnswers(riddle) {
+  const choices = riddle.answers.map((answer, index) => ({ answer, correct: index === riddle.correct }));
+  for (let index = choices.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [choices[index], choices[swapIndex]] = [choices[swapIndex], choices[index]];
+  }
+  return {
+    ...riddle,
+    answers: choices.map((choice) => choice.answer),
+    correct: choices.findIndex((choice) => choice.correct),
+  };
+}
+
+function prepareAttempt() {
+  const source = lessons[selectedMode.id];
+  const shift = attemptNumber % source.length;
+  riddles = [...source.slice(shift), ...source.slice(0, shift)].map(shuffledAnswers);
+}
 
 function buildModes() {
   const grid = document.querySelector('#modeGrid');
@@ -118,7 +138,8 @@ function buildModes() {
 
 function selectMode(mode) {
   selectedMode = mode;
-  riddles = lessons[mode.id];
+  attemptNumber = 0;
+  prepareAttempt();
   document.querySelector('#modeBadge').textContent = `${mode.label} · ${mode.subject || 'Математика'}`;
   document.querySelector('#roadMode').textContent = `${mode.label} · ${mode.subject || 'Математика'} · Где-то очень далеко от дома`;
   startMode();
@@ -129,7 +150,11 @@ function showScene(id) {
   document.querySelector('#game').dataset.scene = id;
 }
 
-function startMode() {
+function startMode(changeQuestions = false) {
+  if (changeQuestions) {
+    attemptNumber += 1;
+    prepareAttempt();
+  }
   riddleIndex = 0;
   locked = false;
   hintElement.textContent = 'Выбирай внимательно. Пол слушает каждый ответ.';
@@ -193,7 +218,7 @@ document.querySelector('#enterButton').addEventListener('click', () => {
   showScene('chamber');
   showRiddle();
 });
-document.querySelector('#retryButton').addEventListener('click', startMode);
+document.querySelector('#retryButton').addEventListener('click', () => startMode(true));
 document.querySelector('#againButton').addEventListener('click', () => {
   if (selectedMode.id === modes.length) {
     iq = 0;
