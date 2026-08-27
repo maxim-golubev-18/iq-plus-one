@@ -9,7 +9,7 @@ const lessons = {
   2: [
     q('В каком слове пять букв?', ['Дом', 'Школа', 'Карандаш'], 1, 'Учитель русского языка'),
     q('Выбери проверочное слово для слова «леса́».', ['Лес', 'Лиса', 'Лесной'], 0, 'Учитель русского языка'),
-    q('Какое предложение написано правильно?', ['кот спит.', 'Кот спит.', 'Кот спит'], 1, 'Учитель русского языка'),
+    q('В каком слове нужно написать букву «о»?', ['В…да', 'Л…са', 'З…ма'], 0, 'Учитель русского языка'),
     q('В каком слове первый звук — гласный?', ['Арбуз', 'Дом', 'Мяч'], 0, 'Учитель русского языка'),
     q('Какое слово отвечает на вопрос «кто?»', ['Лиса', 'Окно', 'Молоко'], 0, 'Учитель русского языка'),
     q('Найди слово из трёх слогов.', ['Мак', 'Река', 'Машина'], 2, 'Учитель русского языка'),
@@ -225,6 +225,12 @@ function selectMode(mode) {
   startMode();
 }
 
+function startSchoolLesson(mode) {
+  selectMode(mode);
+  showScene('chamber');
+  showRiddle();
+}
+
 function showScene(id) {
   scenes.forEach((scene) => scene.classList.toggle('active', scene.id === id));
   document.querySelector('#game').dataset.scene = id;
@@ -309,8 +315,12 @@ document.querySelector('#againButton').addEventListener('click', () => {
     return;
   }
   if (selectedMode.id === 1) {
-    document.querySelector('#offerTitle').textContent = `${playerName}, здание ждало именно тебя.`;
-    showScene('centerOffer');
+    startSchoolLesson(modes[1]);
+    return;
+  }
+  if (selectedMode.id === 2) {
+    document.querySelector('#secondMorningTitle').textContent = `${playerName}, просыпайся! Ты уже во втором классе.`;
+    showScene('secondMorning');
     return;
   }
   if (selectedMode.id === modes.length) {
@@ -336,8 +346,12 @@ document.querySelector('#profileForm').addEventListener('submit', (event) => {
 });
 
 document.querySelector('#wakeButton').addEventListener('click', () => showScene('shopWalk'));
-document.querySelector('#firstClassButton').addEventListener('click', () => selectMode(modes[0]));
-document.querySelector('#acceptButton').addEventListener('click', () => selectMode(modes[1]));
+document.querySelector('#firstClassButton').addEventListener('click', () => startSchoolLesson(modes[0]));
+document.querySelector('#secondShopButton').addEventListener('click', () => {
+  document.querySelector('#offerTitle').textContent = `${playerName}, на месте стройки теперь стоит огромный центр.`;
+  showScene('centerOffer');
+});
+document.querySelector('#acceptButton').addEventListener('click', () => startSchoolLesson(modes[2]));
 document.querySelector('#checkCenterButton').addEventListener('click', () => {
   const endingWord = playerGender === 'girl' ? 'прибежала' : 'прибежал';
   const sawWord = playerGender === 'girl' ? 'увидела' : 'увидел';

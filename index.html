@@ -40,8 +40,8 @@
     </section>
 
     <section class="scene shop-walk" id="shopWalk" aria-label="Дорога в магазин">
-      <div class="shop-building">МАГАЗИН</div>
-      <div class="construction"><div class="crane"></div><div class="fence">ЗДЕСЬ ЧТО-ТО СТРОЯТ</div></div>
+      <div class="shop-building"><div class="shop-sign">ПРОДУКТЫ</div><div class="awning"></div><div class="shop-window"><span>МОЛОКО</span><span>ХЛЕБ</span></div><div class="shop-door"></div></div>
+      <div class="construction"><div class="crane"><i></i></div><div class="building-frame"><i></i><i></i><i></i></div><div class="brick-stack"></div><div class="fence">ЗДЕСЬ ЧТО-ТО СТРОЯТ</div></div>
       <div class="runner" aria-hidden="true"></div>
       <div class="story-card">
         <p class="eyebrow">По дороге в магазин</p>
@@ -51,12 +51,22 @@
       </div>
     </section>
 
+    <section class="scene second-morning" id="secondMorning" aria-label="Утро после второго класса">
+      <div class="window morning-window"></div><div class="bed intro-bed"><div class="blanket"></div></div>
+      <div class="story-card">
+        <p class="eyebrow">После окончания второго класса</p>
+        <h1 id="secondMorningTitle">Просыпайся!</h1>
+        <p>Из кухни снова просят сходить в тот же магазин. Ты вспоминаешь стройку за высоким забором и решаешь проверить, что там появилось.</p>
+        <button id="secondShopButton">Пойти к магазину</button>
+      </div>
+    </section>
+
     <section class="scene center-offer" id="centerOffer" aria-label="Предложение центра">
       <div class="offer-number">100</div><div class="offer-center"></div>
       <div class="story-card offer-card">
-        <p class="eyebrow">Второй класс · Центр достроен</p>
+        <p class="eyebrow">После второго класса · Центр достроен</p>
         <h1 id="offerTitle"></h1>
-        <p>«Пройдёшь все этапы и наберёшь <b>100 IQ</b> — получишь всё, чего душа пожелает. Согласен?»</p>
+        <p>На входе написано: «Пройдёшь все этапы — получишь всё, чего душа пожелает». Внутри светится счётчик до <b>100 IQ</b>.</p>
         <button id="acceptButton">Согласиться и бежать туда</button>
       </div>
     </section>
