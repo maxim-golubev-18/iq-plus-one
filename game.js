@@ -7,9 +7,9 @@ const lessons = {
     q('На ветке сидели 9 птиц. 2 улетели. Сколько осталось?', ['6', '7', '11'], 1),
   ],
   2: [
-    q('В коробке 24 карандаша. Положили ещё 13. Сколько стало?', ['37', '36', '47'], 0),
-    q('Чему равно 42 − 18?', ['24', '26', '34'], 0),
-    q('У Лены 3 пакета по 4 конфеты. Сколько конфет всего?', ['7', '12', '16'], 1),
+    q('В каком слове пять букв?', ['Дом', 'Школа', 'Карандаш'], 1, 'Учитель русского языка'),
+    q('Выбери проверочное слово для слова «леса́».', ['Лес', 'Лиса', 'Лесной'], 0, 'Учитель русского языка'),
+    q('Какое предложение написано правильно?', ['кот спит.', 'Кот спит.', 'Кот спит'], 1, 'Учитель русского языка'),
   ],
   3: [
     q('Чему равно 7 × 8?', ['54', '56', '64'], 1),
@@ -74,7 +74,7 @@ const lessons = {
 };
 
 const modes = [
-  ...Array.from({ length: 11 }, (_, index) => ({ id: index + 1, label: `${index + 1} класс` })),
+  ...Array.from({ length: 11 }, (_, index) => ({ id: index + 1, label: `${index + 1} класс`, subject: index === 1 ? 'Русский язык' : 'Математика' })),
   { id: 12, label: '1 курс' },
   { id: 13, label: '2 курс' },
   { id: 14, label: 'Экстрим: работа', type: 'extreme' },
@@ -97,7 +97,7 @@ function buildModes() {
   modes.forEach((mode) => {
     const button = document.createElement('button');
     button.className = mode.type === 'extreme' ? 'mode-button extreme-mode' : 'mode-button';
-    button.innerHTML = `<span>${String(mode.id).padStart(2, '0')}</span>${mode.label}`;
+    button.innerHTML = `<span>${String(mode.id).padStart(2, '0')} · ${mode.subject || 'Математика'}</span>${mode.label}`;
     button.addEventListener('click', () => selectMode(mode));
     grid.append(button);
   });
@@ -106,8 +106,8 @@ function buildModes() {
 function selectMode(mode) {
   selectedMode = mode;
   riddles = lessons[mode.id];
-  document.querySelector('#modeBadge').textContent = mode.label;
-  document.querySelector('#roadMode').textContent = `${mode.label} · Где-то очень далеко от дома`;
+  document.querySelector('#modeBadge').textContent = `${mode.label} · ${mode.subject || 'Математика'}`;
+  document.querySelector('#roadMode').textContent = `${mode.label} · ${mode.subject || 'Математика'} · Где-то очень далеко от дома`;
   resetGame(false);
 }
 
