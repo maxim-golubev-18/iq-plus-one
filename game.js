@@ -225,7 +225,8 @@ document.querySelector('#enterButton').addEventListener('click', () => {
 document.querySelector('#retryButton').addEventListener('click', () => startMode(true));
 document.querySelector('#againButton').addEventListener('click', () => {
   if (iq >= 100) {
-    document.querySelector('#dreamTitle').textContent = `${playerName}, ты просыпаешься.`;
+    document.querySelector('#dreamTitle').textContent = `${playerName}! Просыпайся!`;
+    document.querySelector('#dreamWakeText').textContent = `Голос зовёт: «${playerName}, ты проспишь всё на свете!» На часах 07:00 — то самое утро первого класса.`;
     showScene('dreamEnding');
     return;
   }
@@ -259,6 +260,12 @@ document.querySelector('#profileForm').addEventListener('submit', (event) => {
 document.querySelector('#wakeButton').addEventListener('click', () => showScene('shopWalk'));
 document.querySelector('#firstClassButton').addEventListener('click', () => selectMode(modes[0]));
 document.querySelector('#acceptButton').addEventListener('click', () => selectMode(modes[1]));
+document.querySelector('#checkCenterButton').addEventListener('click', () => {
+  const endingWord = playerGender === 'girl' ? 'прибежала' : 'прибежал';
+  const sawWord = playerGender === 'girl' ? 'увидела' : 'увидел';
+  document.querySelector('#emptyText').textContent = `${playerName} ${endingWord} со всей силы — но вместо огромного центра ${sawWord} только траву и старый пустой забор. Значит, всё это действительно было сном.`;
+  showScene('emptySite');
+});
 document.querySelector('#newStoryButton').addEventListener('click', () => {
   iq = 0;
   iqElement.textContent = '0';
