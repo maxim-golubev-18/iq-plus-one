@@ -1,8 +1,10 @@
 .center-offer { background: linear-gradient(#7799af 0 60%, #353a3d 60%) !important; }
-.offer-shop { right: 4vw !important; top: 35% !important; width: 21vw !important; height: 28% !important; transform: scale(.9); transform-origin: bottom right; }
-.offer-center { right: 25vw !important; bottom: 17% !important; width: 36vw !important; height: 54vh !important; background: linear-gradient(100deg,#343a40,#68747b 50%,#30363b) !important; border: 8px solid #24292c !important; box-shadow: 0 18px 40px #10182077 !important; }
+.shop-walk .shop-building { right: 5vw !important; top: 34% !important; width: 20vw !important; height: 27% !important; }
+.shop-walk .construction { left: 51% !important; top: 25% !important; width: 23vw !important; height: 40% !important; }
+.offer-shop { right: 4vw !important; top: 40% !important; width: 17vw !important; height: 23% !important; transform: scale(.9); transform-origin: bottom right; }
+.offer-center { right: 21vw !important; bottom: 23% !important; width: 28vw !important; height: 42vh !important; background: linear-gradient(100deg,#343a40,#68747b 50%,#30363b) !important; border: 7px solid #24292c !important; box-shadow: 0 18px 40px #10182077 !important; }
 .offer-center::after { display: none; }
-.mall-sign { position:absolute; left:8%; right:8%; top:5%; padding:12px; background:#111; color:var(--acid); text-align:center; font:28px 'Russo One'; letter-spacing:.18em; box-shadow:0 0 20px #d7ff4577; }
+.mall-sign { position:absolute; left:8%; right:8%; top:5%; padding:9px; background:#111; color:var(--acid); text-align:center; font:20px 'Russo One'; letter-spacing:.18em; box-shadow:0 0 20px #d7ff4577; }
 .mall-windows { position:absolute; left:7%; right:7%; top:27%; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
 .mall-windows i { height:7vh; background:linear-gradient(145deg,#bce4ef,#486c7c); border:4px solid #252c30; box-shadow:inset 8px 7px #ffffff22; }
 .mall-doors { position:absolute; left:40%; bottom:0; width:20%; height:26%; background:linear-gradient(110deg,#a9d1daaa,#294651); border:6px solid #20272b; }
