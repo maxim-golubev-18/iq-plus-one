@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IQ плюс один</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="game" class="game" data-scene="modes">
+    <div class="noise"></div>
+    <header class="hud">
+      <div class="logo">IQ <span>+1</span></div>
+      <div class="hud-right"><div class="mode-badge" id="modeBadge">ВЫБОР РЕЖИМА</div><div class="counter">IQ: <strong id="iq">0</strong></div></div>
+    </header>
+
+    <section class="scene modes active" id="modes" aria-label="Выбор режима">
+      <div class="mode-orbit orbit-one"></div><div class="mode-orbit orbit-two"></div>
+      <div class="mode-panel">
+        <p class="eyebrow">Центр определяет уровень доступа</p>
+        <h1>Выбери свой режим</h1>
+        <p class="mode-intro">Чем выше уровень, тем хитрее центр. Ошибаться всё ещё горячо.</p>
+        <div class="mode-grid" id="modeGrid"></div>
+      </div>
+    </section>
+
+    <section class="scene road active" id="road" aria-label="Дорога к центру">
+      <div class="moon"></div>
+      <div class="city"></div>
+      <div class="road-lines"></div>
+      <div class="walker" aria-hidden="true"><i></i></div>
+      <div class="center">
+        <div class="sign">ЦЕНТР<br><small>IQ +1</small></div>
+        <div class="door"></div>
+      </div>
+      <div class="story-card">
+        <p class="eyebrow" id="roadMode">Где-то очень далеко от дома</p>
+        <h1>Ты шёл так долго, что перестал считать шаги.</h1>
+        <p>Но впереди появился свет. На старом здании мерцала странная надпись…</p>
+        <button id="walkButton">Идти к свету <span>→</span></button>
+      </div>
+    </section>
+
+    <section class="scene entrance" id="entrance" aria-label="Вход в центр">
+      <div class="giant-sign">ОТГАДАЕШЬ ВСЕ ЗАГАДКИ —<br><em>ПОЛУЧИШЬ ВСЁ, ЧТО ХОЧЕШЬ</em></div>
+      <div class="entrance-door"><div class="eye">●</div></div>
+      <div class="story-card center-card">
+        <p class="eyebrow">Правила просты. Наверное.</p>
+        <h1>Дверь ждёт твоего решения.</h1>
+        <button id="enterButton">Войти в центр</button>
+      </div>
+    </section>
+
+    <section class="scene chamber" id="chamber" aria-label="Комната загадок">
+      <div class="ceiling-light"></div>
+      <div class="host"><div class="host-eye"></div></div>
+      <div class="dialogue">
+        <p class="speaker" id="speaker">Смотритель комнаты №1</p>
+        <h2 id="question"></h2>
+        <div class="answers" id="answers"></div>
+        <p class="hint" id="hint">Выбирай внимательно. Пол слушает каждый ответ.</p>
+      </div>
+      <div class="floor-grid"></div>
+    </section>
+
+    <section class="scene fall" id="fall" aria-label="Падение в лаву">
+      <div class="falling-person"></div>
+      <div class="lava"><span></span><span></span><span></span></div>
+      <div class="fall-text">НЕВЕРНЫЙ ОТВЕТ</div>
+    </section>
+
+    <section class="scene bedroom" id="bedroom" aria-label="Пробуждение дома">
+      <div class="window"><div class="tiny-center"></div></div>
+      <div class="bed"><div class="blanket"></div></div>
+      <div class="story-card wake-card">
+        <p class="eyebrow">07:01 · Твоя комната</p>
+        <h1>Ты проснулся дома.</h1>
+        <p>Это был сон? На ладони осталась маленькая чёрная карточка: <b>«IQ +1. Попытка не последняя»</b>.</p>
+        <button id="retryButton">Повторить этот режим</button>
+      </div>
+    </section>
+
+    <section class="scene victory" id="victory" aria-label="Победа">
+      <div class="wish-light"></div>
+      <div class="story-card victory-card">
+        <p class="eyebrow">Все двери открыты</p>
+        <h1>Ты прошёл испытание.</h1>
+        <p>Комната наполнилась светом. Голос спросил: «Чего ты хочешь больше всего?»</p>
+        <button id="againButton">Выбрать другой режим</button>
+      </div>
+    </section>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
