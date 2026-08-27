@@ -7,14 +7,61 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main id="game" class="game" data-scene="modes">
+  <main id="game" class="game" data-scene="profile">
     <div class="noise"></div>
     <header class="hud">
       <div class="logo">IQ <span>+1</span></div>
       <div class="hud-right"><div class="mode-badge" id="modeBadge">ВЫБОР РЕЖИМА</div><div class="counter">IQ: <strong id="iq">0</strong></div></div>
     </header>
 
-    <section class="scene modes active" id="modes" aria-label="Выбор режима">
+    <section class="scene profile active" id="profile" aria-label="Создание героя">
+      <div class="profile-glow"></div>
+      <form class="profile-card" id="profileForm">
+        <p class="eyebrow">Новая история</p>
+        <h1>Как тебя зовут?</h1>
+        <label class="name-field">Имя героя<input id="playerName" maxlength="16" autocomplete="off" placeholder="Напиши имя" required></label>
+        <p class="choice-title">Выбери героя</p>
+        <div class="gender-choice">
+          <label><input type="radio" name="gender" value="boy" checked><span>Мальчик</span></label>
+          <label><input type="radio" name="gender" value="girl"><span>Девочка</span></label>
+        </div>
+        <button type="submit">Начать историю</button>
+      </form>
+    </section>
+
+    <section class="scene morning" id="morning" aria-label="Утро перед школой">
+      <div class="window morning-window"></div><div class="bed intro-bed"><div class="blanket"></div></div>
+      <div class="story-card">
+        <p class="eyebrow">Первый класс · 07:00</p>
+        <h1 id="morningTitle">Просыпайся!</h1>
+        <p id="morningText"></p>
+        <button id="wakeButton">Встать с кровати</button>
+      </div>
+    </section>
+
+    <section class="scene shop-walk" id="shopWalk" aria-label="Дорога в магазин">
+      <div class="shop-building">МАГАЗИН</div>
+      <div class="construction"><div class="crane"></div><div class="fence">ЗДЕСЬ ЧТО-ТО СТРОЯТ</div></div>
+      <div class="runner" aria-hidden="true"></div>
+      <div class="story-card">
+        <p class="eyebrow">По дороге в магазин</p>
+        <h1>За высоким забором строили странное здание.</h1>
+        <p>На вывеске пока была только одна надпись: «IQ +1». Но двери ещё не было.</p>
+        <button id="firstClassButton">Прожить первый класс</button>
+      </div>
+    </section>
+
+    <section class="scene center-offer" id="centerOffer" aria-label="Предложение центра">
+      <div class="offer-number">100</div><div class="offer-center"></div>
+      <div class="story-card offer-card">
+        <p class="eyebrow">Второй класс · Центр достроен</p>
+        <h1 id="offerTitle"></h1>
+        <p>«Пройдёшь все этапы и наберёшь <b>100 IQ</b> — получишь всё, чего душа пожелает. Согласен?»</p>
+        <button id="acceptButton">Согласиться и бежать туда</button>
+      </div>
+    </section>
+
+    <section class="scene modes" id="modes" aria-label="Выбор режима">
       <div class="mode-orbit orbit-one"></div><div class="mode-orbit orbit-two"></div>
       <div class="mode-panel">
         <p class="eyebrow">Центр определяет уровень доступа</p>
@@ -24,7 +71,7 @@
       </div>
     </section>
 
-    <section class="scene road active" id="road" aria-label="Дорога к центру">
+    <section class="scene road" id="road" aria-label="Дорога к центру">
       <div class="moon"></div>
       <div class="city"></div>
       <div class="road-lines"></div>
@@ -87,6 +134,18 @@
         <h1>Ты прошёл испытание.</h1>
         <p id="victoryText">Комната наполнилась светом. Следующая дверь открыта.</p>
         <button id="againButton">Следующий класс</button>
+      </div>
+    </section>
+
+    <section class="scene dream-ending" id="dreamEnding" aria-label="Конец сна">
+      <div class="window ending-window"><div class="tiny-center"></div></div>
+      <div class="bed ending-bed"><div class="blanket"></div></div>
+      <div class="story-card dream-card">
+        <p class="eyebrow">07:00 · Снова твоя комната</p>
+        <h1 id="dreamTitle">Ты просыпаешься.</h1>
+        <p>На часах то же время. Центра нигде нет. Неужели всё это было сном?</p>
+        <p class="final-iq">IQ: <strong>100</strong></p>
+        <button id="newStoryButton">Начать новую историю</button>
       </div>
     </section>
   </main>

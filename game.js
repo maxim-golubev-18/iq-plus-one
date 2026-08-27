@@ -105,6 +105,8 @@ let locked = false;
 let riddles = lessons[1];
 let selectedMode = null;
 let attemptNumber = 0;
+let playerName = '';
+let playerGender = 'boy';
 
 function shuffledAnswers(riddle) {
   const choices = riddle.answers.map((answer, index) => ({ answer, correct: index === riddle.correct }));
@@ -196,7 +198,7 @@ function answerRiddle(answerIndex, button) {
   }
 
   button.classList.add('correct');
-  iq += 1;
+  iq = Math.min(100, iq + 1);
   iqElement.textContent = String(iq);
   hintElement.textContent = 'Правильно. IQ плюс один.';
   riddleIndex += 1;
@@ -206,7 +208,9 @@ function answerRiddle(answerIndex, button) {
       document.querySelector('#victoryText').textContent = isLastMode
         ? `Ты прошёл все режимы и сохранил ${iq} IQ! Теперь центр исполнит желание.`
         : `Все 10 этапов пройдены. Твой результат — ${iq} IQ. Следующая дверь открыта.`;
-      document.querySelector('#againButton').textContent = isLastMode ? 'Начать заново' : 'Следующий класс';
+      document.querySelector('#againButton').textContent = iq >= 100
+        ? 'Получить желание'
+        : selectedMode.id === 1 ? 'Перейти во второй класс' : isLastMode ? 'Начать заново' : 'Следующий класс';
       showScene('victory');
     }
     else showRiddle();
@@ -220,6 +224,16 @@ document.querySelector('#enterButton').addEventListener('click', () => {
 });
 document.querySelector('#retryButton').addEventListener('click', () => startMode(true));
 document.querySelector('#againButton').addEventListener('click', () => {
+  if (iq >= 100) {
+    document.querySelector('#dreamTitle').textContent = `${playerName}, ты просыпаешься.`;
+    showScene('dreamEnding');
+    return;
+  }
+  if (selectedMode.id === 1) {
+    document.querySelector('#offerTitle').textContent = `${playerName}, здание ждало именно тебя.`;
+    showScene('centerOffer');
+    return;
+  }
   if (selectedMode.id === modes.length) {
     iq = 0;
     iqElement.textContent = '0';
@@ -229,3 +243,25 @@ document.querySelector('#againButton').addEventListener('click', () => {
   selectMode(modes[selectedMode.id]);
 });
 buildModes();
+
+document.querySelector('#profileForm').addEventListener('submit', (event) => {
+  event.preventDefault();
+  playerName = document.querySelector('#playerName').value.trim();
+  if (!playerName) return;
+  playerGender = document.querySelector('input[name="gender"]:checked').value;
+  const firstGrader = playerGender === 'girl' ? 'первоклассница' : 'первоклассник';
+  document.querySelector('#morningTitle').textContent = `${playerName}, просыпайся!`;
+  document.querySelector('#morningText').textContent = `Сегодня ты ${firstGrader}. Из кухни слышится голос: «После школы сходи, пожалуйста, в магазин за молоком».`;
+  document.querySelector('#game').dataset.gender = playerGender;
+  showScene('morning');
+});
+
+document.querySelector('#wakeButton').addEventListener('click', () => showScene('shopWalk'));
+document.querySelector('#firstClassButton').addEventListener('click', () => selectMode(modes[0]));
+document.querySelector('#acceptButton').addEventListener('click', () => selectMode(modes[1]));
+document.querySelector('#newStoryButton').addEventListener('click', () => {
+  iq = 0;
+  iqElement.textContent = '0';
+  document.querySelector('#playerName').value = '';
+  showScene('profile');
+});
