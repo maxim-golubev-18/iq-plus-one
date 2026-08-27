@@ -348,7 +348,7 @@ document.querySelector('#profileForm').addEventListener('submit', (event) => {
 document.querySelector('#wakeButton').addEventListener('click', () => showScene('shopWalk'));
 document.querySelector('#firstClassButton').addEventListener('click', () => startSchoolLesson(modes[0]));
 document.querySelector('#secondShopButton').addEventListener('click', () => {
-  document.querySelector('#offerTitle').textContent = `${playerName}, на месте стройки теперь стоит огромный центр.`;
+  document.querySelector('#offerTitle').textContent = `${playerName}, рядом с магазином вырос огромный торговый центр.`;
   showScene('centerOffer');
 });
 document.querySelector('#acceptButton').addEventListener('click', () => startSchoolLesson(modes[2]));
