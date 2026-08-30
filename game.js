@@ -237,10 +237,63 @@ function shuffledAnswers(riddle) {
   };
 }
 
+function choice(items, seed) {
+  return items[Math.abs(seed) % items.length];
+}
+
+function personalizedRiddle(riddle, index) {
+  const seed = attemptNumber * 7 + index;
+  const genitiveNames = ['Маши', 'Кати', 'Веры', 'Нины', 'Сони', 'Фили'];
+  const firstNames = ['Коли', 'Пети', 'Фили', 'Димы', 'Саши', 'Вовы'];
+  let result = { ...riddle, answers: [...riddle.answers] };
+
+  if (riddle.question.startsWith('У Маши было 5 яблок')) {
+    const first = 4 + (seed % 4);
+    const added = 2 + (seed % 3);
+    const total = first + added;
+    const name = choice(genitiveNames, seed);
+    const item = choice(['яблок', 'конфет', 'карандашей'], seed + 1);
+    result.question = `У ${name} было ${first} ${item}. Дали ещё ${added}. Сколько стало?`;
+    result.answers = [String(total - 1), String(total), String(total + 1)];
+    result.correct = 1;
+  } else if (riddle.question.startsWith('На ветке сидели 9 птиц')) {
+    const before = 7 + (seed % 4);
+    const gone = 2 + (seed % 2);
+    const left = before - gone;
+    result.question = `Во дворе играли ${before} ребят. ${gone} ушли домой. Сколько осталось?`;
+    result.answers = [String(left - 1), String(left), String(before + gone)];
+    result.correct = 1;
+  } else if (riddle.question.startsWith('У Коли 3 машинки')) {
+    const first = 2 + (seed % 4);
+    const second = 1 + ((seed + 2) % 4);
+    const nameOne = choice(firstNames, seed);
+    const nameTwo = choice(firstNames, seed + 3);
+    result.question = `У ${nameOne} ${first} конфеты, а у ${nameTwo} ${second}. Сколько конфет всего?`;
+    result.answers = [String(first + second), String(first + second - 1), String(first + second + 2)];
+    result.correct = 0;
+  } else if (riddle.question.startsWith('В корзине 8 груш')) {
+    const before = 6 + (seed % 5);
+    const eaten = 1 + (seed % 2);
+    const item = choice(['груш', 'яблок', 'слив'], seed);
+    result.question = `В корзине было ${before} ${item}. ${eaten} съели. Сколько осталось?`;
+    result.answers = [String(before - eaten - 1), String(before - eaten), String(before + eaten)];
+    result.correct = 1;
+  } else {
+    result.question = result.question
+      .replace('Маши', choice(genitiveNames, seed))
+      .replace('Коли', choice(firstNames, seed))
+      .replace('Вани', choice(firstNames, seed + 2))
+      .replace('Лены', choice(genitiveNames, seed + 3));
+  }
+  return result;
+}
+
 function prepareAttempt() {
   const source = lessons[selectedMode.id];
   const shift = attemptNumber % source.length;
-  riddles = [...source.slice(shift), ...source.slice(0, shift)].map(shuffledAnswers);
+  riddles = [...source.slice(shift), ...source.slice(0, shift)]
+    .map(personalizedRiddle)
+    .map(shuffledAnswers);
 }
 
 function buildModes() {
