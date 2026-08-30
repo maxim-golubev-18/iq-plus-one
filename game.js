@@ -399,7 +399,13 @@ document.querySelector('#enterButton').addEventListener('click', () => {
   showScene('chamber');
   showRiddle();
 });
-document.querySelector('#retryButton').addEventListener('click', () => startMode(true));
+document.querySelector('#retryButton').addEventListener('click', () => {
+  startMode(true);
+  if (selectedMode.id <= 2) {
+    showScene('chamber');
+    showRiddle();
+  }
+});
 document.querySelector('#againButton').addEventListener('click', () => {
   if (iq >= 100) {
     document.querySelector('#dreamTitle').textContent = `${playerName}! Просыпайся!`;
