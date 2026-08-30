@@ -185,6 +185,44 @@ let selectedMode = null;
 let attemptNumber = 0;
 let playerName = '';
 let playerGender = 'boy';
+let audioContext = null;
+let trafficTimer = null;
+
+function playPassingCar() {
+  if (!audioContext) return;
+  const now = audioContext.currentTime;
+  const duration = 2.2 + Math.random() * 1.2;
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  const filter = audioContext.createBiquadFilter();
+  const panner = audioContext.createStereoPanner();
+  oscillator.type = 'sawtooth';
+  oscillator.frequency.setValueAtTime(55 + Math.random() * 25, now);
+  oscillator.frequency.exponentialRampToValueAtTime(38, now + duration);
+  filter.type = 'lowpass';
+  filter.frequency.value = 260;
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.055, now + duration * 0.45);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+  panner.pan.setValueAtTime(-1, now);
+  panner.pan.linearRampToValueAtTime(1, now + duration);
+  oscillator.connect(filter).connect(gain).connect(panner).connect(audioContext.destination);
+  oscillator.start(now);
+  oscillator.stop(now + duration);
+}
+
+function startStreetAudio() {
+  audioContext ||= new AudioContext();
+  audioContext.resume();
+  clearInterval(trafficTimer);
+  playPassingCar();
+  trafficTimer = setInterval(playPassingCar, 4200);
+}
+
+function stopStreetAudio() {
+  clearInterval(trafficTimer);
+  trafficTimer = null;
+}
 
 function shuffledAnswers(riddle) {
   const choices = riddle.answers.map((answer, index) => ({ answer, correct: index === riddle.correct }));
@@ -234,6 +272,8 @@ function startSchoolLesson(mode) {
 function showScene(id) {
   scenes.forEach((scene) => scene.classList.toggle('active', scene.id === id));
   document.querySelector('#game').dataset.scene = id;
+  if (id === 'shopWalk' || id === 'centerOffer') startStreetAudio();
+  else stopStreetAudio();
 }
 
 function startMode(changeQuestions = false) {

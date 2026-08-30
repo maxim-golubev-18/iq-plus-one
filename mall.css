@@ -41,3 +41,15 @@
   .shop-walk .story-card, .center-offer .story-card { padding: 18px; }
   .center-offer .offer-card { max-width: none !important; }
 }
+
+.traffic { position:absolute; z-index:4; left:0; right:0; bottom:7%; height:13%; overflow:hidden; pointer-events:none; }
+.car { position:absolute; display:block; width:112px; height:37px; bottom:13%; border-radius:22px 30px 8px 7px; box-shadow:0 8px 9px #0007; }
+.car::before { content:''; position:absolute; left:19px; top:-18px; width:62px; height:24px; border-radius:28px 30px 2px 2px; background:inherit; clip-path:polygon(18% 0,78% 0,100% 100%,0 100%); }
+.car::after { content:''; position:absolute; left:15px; bottom:-9px; width:18px; height:18px; border:5px solid #17191b; border-radius:50%; background:#8a8d8f; box-shadow:66px 0 0 -5px #8a8d8f,66px 0 0 0 #17191b; }
+.car-red { background:#a9362b; animation:driveRight 7s linear infinite; }
+.car-blue { background:#31566d; transform:scale(.78); animation:driveLeft 9s linear 2s infinite; }
+.car-white { background:#d2d0c7; transform:scale(.62); animation:driveRightSmall 12s linear 4s infinite; }
+@keyframes driveRight { from{left:-150px} to{left:110vw} }
+@keyframes driveLeft { from{left:110vw} to{left:-150px} }
+@keyframes driveRightSmall { from{left:-180px;bottom:55%} to{left:110vw;bottom:55%} }
+@media(max-width:700px) { .traffic{bottom:10%}.car{width:82px;height:28px}.car::before{width:45px;height:18px}.car::after{box-shadow:45px 0 0 -5px #8a8d8f,45px 0 0 0 #17191b} }
