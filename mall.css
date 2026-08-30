@@ -13,3 +13,31 @@
 .offer-card { left:5vw !important; bottom:6vh !important; max-width:39vw !important; }
 .offer-card h1 { font-size:clamp(27px,3.6vw,48px); }
 @media(max-width:700px) { .offer-center{right:5vw!important;width:60vw!important;opacity:.55}.offer-shop{right:62vw!important;width:34vw!important}.offer-card{left:24px!important;max-width:88vw!important} }
+
+/* Реалистичные сюжетные фоны: один и тот же магазин до и после стройки. */
+.shop-walk {
+  background: linear-gradient(90deg, #05080acc, transparent 58%), url('assets/street-construction.png') center / cover no-repeat !important;
+}
+.center-offer {
+  background: linear-gradient(90deg, #05080add, transparent 60%), url('assets/street-mall.png') center / cover no-repeat !important;
+}
+.shop-walk .shop-building,
+.shop-walk .construction,
+.center-offer .offer-shop,
+.center-offer .offer-center,
+.center-offer .offer-number {
+  display: none;
+}
+.shop-walk .story-card,
+.center-offer .story-card {
+  padding: 25px;
+  background: linear-gradient(100deg, #07090be8, #101418bf);
+  border-left: 4px solid var(--acid);
+  backdrop-filter: blur(5px);
+}
+.center-offer .offer-card { max-width: 610px !important; }
+@media(max-width:700px) {
+  .shop-walk, .center-offer { background-position: 65% center !important; }
+  .shop-walk .story-card, .center-offer .story-card { padding: 18px; }
+  .center-offer .offer-card { max-width: none !important; }
+}
